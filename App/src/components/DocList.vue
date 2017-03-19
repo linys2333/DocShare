@@ -2,8 +2,11 @@
     <div>
         <x-header style="background-color:#000;">我爱学习</x-header>
         <group gutter="0">
-            <div slot="after-title">作者：{{doc.author}}</div>
-            <panel header="" :footer="footer" :list="list" :type="type" style="margin:0px;"></panel>
+            <div slot="after-title">
+                <p>{{item.title}}</p>
+                <div>作者：{{item.author}}</div>
+            </div>
+            <panel header="" :footer="footer" :list="item.docList" type="1" style="margin:0px;"></panel>
         </group>
     </div>
 </template>
@@ -15,6 +18,10 @@
         Panel
     } from 'vux'
 
+    import {
+        find
+    } from 'lodash/'
+
     export default {
         components: {
             XHeader,
@@ -23,23 +30,15 @@
         },
         data() {
             return {
-                doc: {
-                    author: '刘芮瑞'
-                },
-                type: '1',
-                list: [{
-                    src: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
-                    title: '芮瑞讲解项目投资收益产品',
-                    desc: '芮瑞说项目投资收益产品其实很简单！不信，你来听听看~',
-                    url: '/component/cell'
-                }, {
-                    src: 'http://placeholder.qiniudn.com/60x60/3cc51f/ffffff',
-                    title: '李坤分析项目投资收益售前案例',
-                    desc: '如何把一个陌生的产品讲出“花”来？请听我一一道来',
-                    url: {
-                        path: '/component/radio',
-                        replace: false
-                    }
+                item: [{
+                    title: '',
+                    author: '',
+                    docList: [{
+                        title: '',
+                        desc: '',
+                        time: 0,
+                        size: 0
+                    }]
                 }],
                 footer: {
                     title: '查看更多',
@@ -47,7 +46,11 @@
                 }
             }
         },
-        created() {},
+        created() {
+            item = find(this.$store.getters.topicList, {
+                id: this.$route.query.id
+            })
+        },
         computed: {},
         methods: {}
     }

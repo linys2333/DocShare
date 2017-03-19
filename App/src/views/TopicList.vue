@@ -2,8 +2,8 @@
     <div>
         <x-header :left-options="{showBack: false}" style="background-color:#000;">我爱学习</x-header>
         <group gutter="0">
-            <cell v-for="item in list" style="margin:0px;" :title="item.title" :link="{ path: item.path }" :inline-desc='item.desc'>
-                <img slot="icon" width="60" height="60" style="display:block;margin-right:10px;" src="item.src"></img>
+            <cell v-for="item in list" style="margin:0px;" :title="item.title" :link="{ path: '/Doc', query: { id: item.id } }" :inline-desc='item.desc'>
+                <img slot="icon" width="60" height="60" style="display:block;margin-right:10px;" src="item.icon"></img>
             </cell>
         </group>
     </div>
@@ -15,6 +15,10 @@
         Group,
         Cell
     } from 'vux'
+
+    import {
+        mapGetters
+    } from 'vuex'
 
     export default {
         components: {
@@ -40,7 +44,11 @@
             }
         },
         created() {},
-        computed: {},
+        computed: {
+            ...mapGetters({
+                list: 'topicList'
+            })
+        },
         methods: {}
     }
 </script>
