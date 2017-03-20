@@ -12,7 +12,7 @@ const xhr = ({ url, data = null, method = 'get' }) => {
         //   withCredentials: [域名]
         // },
         headers: {
-            'Authorization': sessionStorage.token || ''
+
         },
         beforeSend(xhr) {
 
@@ -30,27 +30,9 @@ const xhr = ({ url, data = null, method = 'get' }) => {
         },
         statusCode: {
             // todo：token相关的代码是否考虑移出去？
-            200(data, textStatus, xhr) {
-                let token = xhr.getResponseHeader('Authorization') || ''
-                if (token) {
-                    sessionStorage.setItem('token', token)
-                } else {
-                    sessionStorage.removeItem('token')
-                }
-            },
-            401() {
-                sessionStorage.removeItem('token')
-            }
+            200(data, textStatus, xhr) {}
         },
-        complete(xhr, textStatus) {
-            if (textStatus !== 'success') {
-                let token = sessionStorage.token || ''
-                if (!token) {
-                    // todo：这里跳转好SB...
-                    window.location.href = '/Login'
-                }
-            }
-        }
+        complete(xhr, textStatus) {}
     })
 
     return defer.promise()

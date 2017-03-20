@@ -3,7 +3,7 @@
 
 // 后端 API 地址，最好以 http(s):// 打头
 
-export const rootPath = `http://${window.location.hostname}:8088/api`
+export const rootPath = `http://${window.location.hostname}:8004/api`
 
 export const errHandler = (e) => {
     // alert('[ XHR:Failed ] 详情请看控制台')

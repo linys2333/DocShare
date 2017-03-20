@@ -2,11 +2,13 @@
     <div>
         <x-header style="background-color:#000;">我爱学习</x-header>
         <group gutter="0">
-            <div slot="after-title">
-                <p>{{item.title}}</p>
-                <div>作者：{{item.author}}</div>
+            <div slot="after-title" style="margin:10px;">
+                <p>{{topic.title}}</p>
+                <div style="font-size: 12px;">作者：{{topic.author}}</div>
             </div>
-            <panel header="" :footer="footer" :list="item.docList" type="1" style="margin:0px;"></panel>
+            <cell v-for="item in topic.docList" style="margin:0px;" :title="item.title"  :inline-desc='item.desc'>
+                <x-button slot="icon" text="播放" @click.native="play(item.src)" type="primary"></x-button>
+            </cell>
         </group>
     </div>
 </template>
@@ -15,10 +17,12 @@
     import {
         XHeader,
         Group,
-        Panel
+        Cell,
+        XButton
     } from 'vux'
 
     import {
+        cloneDeep,
         find
     } from 'lodash/'
 
@@ -26,33 +30,34 @@
         components: {
             XHeader,
             Group,
-            Panel
+            Cell,
+            XButton
         },
         data() {
             return {
-                item: [{
-                    title: '',
-                    author: '',
-                    docList: [{
-                        title: '',
-                        desc: '',
-                        time: 0,
-                        size: 0
-                    }]
-                }],
-                footer: {
-                    title: '查看更多',
-                    url: 'http://vux.li'
-                }
+                topic: [],
+                src: ''
             }
         },
         created() {
-            item = find(this.$store.getters.topicList, {
+            if (this.$store.getters.topicList.length == 0) {
+                this.$router.go(-1)
+                return
+            }
+
+            this.topic = cloneDeep(find(this.$store.getters.topicList, {
                 id: this.$route.query.id
-            })
+            }))
         },
         computed: {},
-        methods: {}
+        methods: {
+            play(src) {
+                var sound = new Audio()
+                sound.controls = 'controls'
+                sound.src = src
+                sound.play()
+            }
+        }
     }
 </script>
 
