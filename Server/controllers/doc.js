@@ -1,30 +1,54 @@
 const fs = require('fs')
+const _ = require('lodash')
 const result = require('./result')
+
+// 取数
+let getTopics = () => {
+    let url = `http://${ctx.host}`
+    let dataPath = './../Data/Topic/'
+    let staticPath = './../static/'
+    let topics = []
+
+    fs.readdir(dataPath, (err, files) => {
+        if (err) {
+            return console.error(err)
+        }
+        files.forEach((file) => {
+            fs.open(dataPath + file, 'r+', (err, fd) => {
+                if (err) {
+                    return console.error(err);
+                }
+                fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    if (bytes > 0) {
+                        topics.push(JSON.parse(buf.slice(0, bytes).toString()))
+                    }
+                    fs.close(fd)
+                })
+            })
+        })
+    })
+
+    _.forEach(topics, (val) => {
+        val.src = `/image/${val.id}.${val.icon}`
+
+        _.forEach(val.docList, (doc) => {
+            doc.src = `/mime/${val.id}.${doc.id}.${doc.type}`
+            doc.time = ''
+            doc.size = ''
+        })
+    })
+
+    return topics
+}
 
 class doc {
     async getTopicList(ctx) {
-        let url = `http://${ctx.host}`
+        let topics = getTopics()
 
-        ctx.body = result(true, [{
-            id: '01',
-            icon: url + '/image/01.png',
-            title: '芮瑞讲解项目投资收益产品',
-            desc: '芮瑞说项目投资收益产品其实很简单！不信，你来听听看~',
-            author: '刘芮瑞',
-            docList: [{
-                title: '第01讲|项目投资收益产品概览',
-                desc: '06:30    0.20M',
-                time: 120,
-                size: 1024,
-                src: url + '/mime/01.mp3'
-            }, {
-                title: '第02讲|如何支持项目投资收益成果输出',
-                desc: '09:00    1.05M',
-                time: 120,
-                size: 1024,
-                src: url + '/mime/01.mp3'
-            }]
-        }])
+        ctx.body = result(true, topics)
     }
 }
 
