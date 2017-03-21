@@ -2,8 +2,12 @@
     <div>
         <x-header :left-options="{showBack: false}" style="background-color:#000;">我爱学习</x-header>
         <group gutter="0">
-            <cell v-for="item in list" style="margin:0px;" :title="item.title" :link="{ path: '/Doc', query: { id: item.id } }" :inline-desc='item.desc'>
-                <img slot="icon" width="60" height="60" style="display:block;margin-right:10px;" :src="item.src"></img>
+            <cell v-for="item in list" class="cell" :link="{ path: '/Doc', query: { id: item.id } }">
+                <img slot="icon" class="icon" :src="item.src"></img>
+                <div slot="after-title">
+                    <h4>{{item.title}}</h4>
+                    <div class="minFont gray">{{item.desc}}</div>
+                </div>
             </cell>
         </group>
     </div>

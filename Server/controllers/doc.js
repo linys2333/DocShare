@@ -1,52 +1,42 @@
 const fs = require('fs')
+const path = require('path')
 const _ = require('lodash')
 const result = require('./result')
 
 // 取数
-let getTopics = () => {
+let getTopics = (ctx) => {
     let url = `http://${ctx.host}`
-    let dataPath = './../Data/Topic/'
-    let staticPath = './../static/'
+    let dataPath = path.join(__dirname, './../Data/Topic/')
+    let staticPath = path.join(__dirname, './../static/')
     let topics = []
 
-    fs.readdir(dataPath, (err, files) => {
-        if (err) {
-            return console.error(err)
-        }
-        files.forEach((file) => {
-            fs.open(dataPath + file, 'r+', (err, fd) => {
-                if (err) {
-                    return console.error(err);
-                }
-                fs.read(fd, buf, 0, buf.length, 0, (err, bytes) => {
-                    if (err) {
-                        return console.error(err);
-                    }
-                    if (bytes > 0) {
-                        topics.push(JSON.parse(buf.slice(0, bytes).toString()))
-                    }
-                    fs.close(fd)
-                })
-            })
+    fs.readdirSync(dataPath)
+        .forEach((file) => {
+            let data = fs.readFileSync(dataPath + file)
+            topics.push(JSON.parse(data))
         })
-    })
 
     _.forEach(topics, (val) => {
-        val.src = `/image/${val.id}.${val.icon}`
+        val.src = `${url}/image/${val.id}.${val.icon}`
 
         _.forEach(val.docList, (doc) => {
-            doc.src = `/mime/${val.id}.${doc.id}.${doc.type}`
+            let src = `media/${val.id}.${doc.id}.${doc.type}`
+            let state = fs.statSync(staticPath + src)
+
+            doc.src = `${url}/${src}`
             doc.time = ''
-            doc.size = ''
+            doc.size = `${Math.floor(state.size / 1024 / 1024 * 100) / 100}M`
         })
+        val = _.sortBy(val, ['id'])
     })
+    topics = _.sortBy(topics, ['id'])
 
     return topics
 }
 
 class doc {
     async getTopicList(ctx) {
-        let topics = getTopics()
+        let topics = getTopics(ctx)
 
         ctx.body = result(true, topics)
     }

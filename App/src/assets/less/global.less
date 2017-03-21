@@ -1,0 +1,238 @@
+//----------公共样式--------------------
+html, body {
+  height: 100%;
+}
+
+body {
+  //background: #f5f5f5;
+}
+
+a, a:active {
+  text-decoration: none;
+}
+
+.clear-fix {
+  clear: both;
+}
+
+// 配合Navbar使用
+.container {
+  padding-top: 50px;
+}
+
+.no-bar {
+  padding-top: 0px;
+}
+
+.text-align-left {
+  text-align: left;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.text-align-right {
+  text-align: right;
+}
+
+.top-space {
+  margin-top: 5px;
+}
+
+.bottom-space {
+  margin-top: 5px;
+}
+
+// -------------动画---------------
+
+@-webkit-keyframes slideInLeft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+.slideInLeft {
+  -webkit-animation-name: slideInLeft;
+  animation-name: slideInLeft;
+}
+@-webkit-keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+  to {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInRight {
+  -webkit-animation-name: slideInRight;
+  animation-name: slideInRight;
+}
+
+
+@-webkit-keyframes slideOutLeft {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.slideOutLeft {
+  -webkit-animation-name: slideOutLeft;
+  animation-name: slideOutLeft;
+}
+
+@-webkit-keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
+.slideOutRight {
+  -webkit-animation-name: slideOutRight;
+  animation-name: slideOutRight;
+}
+
+.slide-left-enter-active {
+  animation: slideInRight .3s;
+}
+.slide-right-enter-active {
+  animation: slideInLeft .3s;
+}
+
+//-----------------导航栏----------
+.nav-header {
+  display: flex;
+  position: fixed;
+  // position: -webkit-sticky;
+  // position: sticky;
+  padding: 0 10px;
+  //margin-bottom: 50px; 
+  background-color: #000;
+  color: #fff;
+  width: 100%;
+  height: 40px;
+  z-index: 10000;
+  justify-content: space-between;
+  box-shadow: 0 3px 9px rgba(0,0,0,.5);
+  a {
+    color: #fff;
+  }
+  .left {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    flex-shrink: 0;
+    padding-left: 10px;
+  }
+  .center {
+    align-self: center;
+    text-align: center;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    width: 80px;
+    flex-shrink: 0;
+    flex-direction: row-reverse;
+    padding-right: 10px;
+  }
+}
+
+//------------表单公共----------
+//覆盖bs样式，解决表单对不齐的问题
+.form-horizontal {
+  label.control-label {
+    padding-top: 7px;
+  }
+}
+
+//---------------新建方案-----------
+.sub-title {
+  color: #FF9800;
+  margin: 5px 0;
+}
+
+.hr {
+  clear: both;
+  border: none;
+  border-bottom: solid 1px #BBBBBB;
+}
+
+.edit-icon {
+  color: #FF9800;
+}

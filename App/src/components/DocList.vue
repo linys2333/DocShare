@@ -2,14 +2,28 @@
     <div>
         <x-header style="background-color:#000;">我爱学习</x-header>
         <group gutter="0">
-            <div slot="after-title" style="margin:10px;">
+            <box slot="after-title" gap="10px">
                 <p>{{topic.title}}</p>
-                <div style="font-size: 12px;">作者：{{topic.author}}</div>
-            </div>
-            <cell v-for="item in topic.docList" style="margin:0px;" :title="item.title"  :inline-desc='item.desc'>
-                <x-button slot="icon" text="播放" @click.native="play(item.src)" type="primary"></x-button>
-            </cell>
+                <div class="minFont"><span class="gray">作者：</span>{{topic.author}}</div>
+            </box>
+            <box class="box" gap="10px" v-for="(doc, i) in topic.docList">
+                <flexbox>
+                    <div class="icon" @click="playMedia(doc.id)">
+                        <icon type="waiting"></icon>
+                    </div>
+                    <div @click="playMedia(doc.id)">
+                        <div style="font-size: 11pt">{{doc.title}}</div>
+                        <div class="minFont gray">{{doc.size}}</div>
+                    </div>
+                </flexbox>
+            </box>
         </group>
+        <popup v-model="play.show" style="background-color: #3F3F3F;">
+            <div class="popTitle">{{play.title}}</div>
+            <audio v-if="play.show" id="doc" controls autoplay class="audio" :src="play.src">
+                浏览器不支持audio元素
+            </audio>
+        </popup>
     </div>
 </template>
 
@@ -17,8 +31,10 @@
     import {
         XHeader,
         Group,
-        Cell,
-        XButton
+        Box,
+        Icon,
+        Popup,
+        Flexbox
     } from 'vux'
 
     import {
@@ -30,13 +46,19 @@
         components: {
             XHeader,
             Group,
-            Cell,
-            XButton
+            Box,
+            Icon,
+            Popup,
+            Flexbox
         },
         data() {
             return {
-                topic: [],
-                src: ''
+                topic: {},
+                play: {
+                    title: '',
+                    src: '',
+                    show: false
+                }
             }
         },
         created() {
@@ -51,11 +73,13 @@
         },
         computed: {},
         methods: {
-            play(src) {
-                var sound = new Audio()
-                sound.controls = 'controls'
-                sound.src = src
-                sound.play()
+            playMedia(id) {
+                let t = find(this.topic.docList, {
+                    id
+                })
+                this.play.title = t.title
+                this.play.src = t.src
+                this.play.show = true
             }
         }
     }
