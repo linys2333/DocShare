@@ -1,4 +1,5 @@
 import { rootPath, errHandler } from './config'
+import $ from 'jquery'
 
 const xhr = ({ url, data = null, method = 'get' }) => {
     const defer = $.Deferred()
