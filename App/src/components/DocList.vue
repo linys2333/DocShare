@@ -6,21 +6,21 @@
                 <p>{{topic.title}}</p>
                 <div class="minFont"><span class="gray">作者：</span>{{topic.author}}</div>
             </box>
-            <box class="box" gap="10px" v-for="(doc, i) in topic.docList">
+            <div class="box" v-for="(doc, i) in topic.docList" @click="playMedia(doc.id)">
                 <flexbox>
-                    <div class="icon" @click="playMedia(doc.id)">
+                    <div class="icon">
                         <icon type="waiting"></icon>
                     </div>
-                    <div @click="playMedia(doc.id)">
+                    <div>
                         <div style="font-size: 11pt">{{doc.title}}</div>
                         <div class="minFont gray">{{doc.size}}</div>
                     </div>
                 </flexbox>
-            </box>
+            </div>
         </group>
-        <popup v-model="play.show" style="background-color: #3F3F3F;">
+        <popup v-model="play.show" on-hide="pauseMedia" style="background-color: #3F3F3F;">
             <div class="popTitle">{{play.title}}</div>
-            <audio v-if="play.show" id="doc" controls autoplay class="audio" :src="play.src">
+            <audio v-show="play.id == doc.id" v-for="(doc, i) in play.list" controls autoplay class="audio" :src="doc.src">
                 浏览器不支持audio元素
             </audio>
         </popup>
@@ -56,8 +56,9 @@
                 topic: {},
                 play: {
                     title: '',
-                    src: '',
-                    show: false
+                    id: '',
+                    show: false,
+                    list: []
                 }
             }
         },
@@ -78,8 +79,21 @@
                     id
                 })
                 this.play.title = t.title
-                this.play.src = t.src
+                this.play.id = t.id
+
+                if (!find(this.play.list, {
+                        id: t.id
+                    })) {
+                    this.play.list.push({
+                        id: t.id,
+                        src: t.src
+                    })
+                }
+
                 this.play.show = true
+            },
+            pauseMedia() {
+
             }
         }
     }
