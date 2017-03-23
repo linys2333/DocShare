@@ -2,10 +2,7 @@ import xhr from './xhr/'
 
 class docService {
     getTopicList(data) {
-        return xhr({
-            method: 'get',
-            url: '/doc/getTopicList'
-        })
+        return xhr.get('/doc/getTopicList')
     }
 }
 

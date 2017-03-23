@@ -25,14 +25,7 @@ const router = new VueRouter({
 
 // 权限拦截
 router.beforeEach((to, from, next) => {
-    // let token = sessionStorage.token || ''
-    // let noCheckToken = to.matched.some(record => record.meta.noCheckToken)
-    // if (!noCheckToken && !token) {
-    //     alert('需要登录后才能访问')
-    //     next('/Login')
-    // } else {
     next()
-        // }
 })
 
 export default router

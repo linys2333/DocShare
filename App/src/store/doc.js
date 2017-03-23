@@ -10,13 +10,10 @@ const getters = {
 
 const actions = {
     getTopicList({ commit }) {
-        return new Promise((resolve, reject) => {
-            docService.getTopicList()
-                .done(doc => {
-                    commit('setTopic', doc)
-                    resolve()
-                }).fail(reject)
-        })
+        return docService.getTopicList()
+            .then(doc => {
+                commit('setTopic', doc)
+            })
     }
 }
 

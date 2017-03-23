@@ -20,7 +20,7 @@
         </group>
         <popup v-model="play.show" @on-hide="pauseMedia()" style="background-color: #3F3F3F;">
             <div class="playTitle">{{play.title}}</div>
-            <my-audio v-for="(doc, i) in play.list" width="100%" :src="doc.src" auto='autoplay' :status="doc.status">
+            <my-audio v-show="play.id == doc.id" v-for="(doc, i) in play.list" width="100%" :src="doc.src" auto='autoplay' :status="doc.status">
             </my-audio>
         </popup>
     </div>
@@ -36,13 +36,13 @@
         Flexbox
     } from 'vux'
 
+    import MyAudio from './Common/my-audio'
+
     import {
         cloneDeep,
         find,
         forEach
     } from 'lodash/'
-
-    import MyAudio from './Common/my-audio'
 
     export default {
         components: {
@@ -79,6 +79,9 @@
         computed: {},
         methods: {
             playMedia(id) {
+                // this.$wechat.startRecord()
+                // return
+
                 let t = find(this.topic.docList, {
                     id
                 })
