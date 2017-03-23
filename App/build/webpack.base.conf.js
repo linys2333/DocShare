@@ -30,7 +30,8 @@ let webpackConfig = {
             COMPONENT: resolve('src/components'),
             SERVICE: resolve('src/services'),
             VIEW: resolve('src/views'),
-            STORE: resolve('src/store')
+            STORE: resolve('src/store'),
+            ROUTER: resolve('src/routes')
         }
     },
     module: {

@@ -10,5 +10,4 @@ class wxService {
     }
 }
 
-// 实例化后再导出
 export default new wxService()

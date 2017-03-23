@@ -68,20 +68,24 @@
         },
         created() {
             if (this.$store.getters.topicList.length == 0) {
-                this.$router.go(-1)
-                return
+                this.$store.dispatch('getTopicList')
+                    .then(() => {
+                        this.topic = cloneDeep(find(this.$store.getters.topicList, {
+                            id: this.$route.query.id
+                        }))
+                    })
+                    //this.$router.go(-1)
+                    //return
+            } else {
+                this.topic = cloneDeep(find(this.$store.getters.topicList, {
+                    id: this.$route.query.id
+                }))
             }
 
-            this.topic = cloneDeep(find(this.$store.getters.topicList, {
-                id: this.$route.query.id
-            }))
         },
         computed: {},
         methods: {
             playMedia(id) {
-                // this.$wechat.startRecord()
-                // return
-
                 let t = find(this.topic.docList, {
                     id
                 })
@@ -94,16 +98,18 @@
                     id: t.id
                 })
                 if (!doc) {
-                    this.play.list.push({
+                    doc = {
                         id: t.id,
                         src: t.src,
                         status: 'play'
-                    })
+                    }
+                    this.play.list.push(doc)
                 } else {
                     doc.status = 'play'
                 }
 
                 this.play.show = true
+                doc.status = 'play'
             },
             pauseMedia() {
                 forEach(this.play.list, (val) => {
