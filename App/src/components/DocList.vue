@@ -68,20 +68,13 @@
         },
         created() {
             if (this.$store.getters.topicList.length == 0) {
-                this.$store.dispatch('getTopicList')
-                    .then(() => {
-                        this.topic = cloneDeep(find(this.$store.getters.topicList, {
-                            id: this.$route.query.id
-                        }))
-                    })
-                    //this.$router.go(-1)
-                    //return
-            } else {
-                this.topic = cloneDeep(find(this.$store.getters.topicList, {
-                    id: this.$route.query.id
-                }))
+                this.$router.push('/Auth')
+                return
             }
 
+            this.topic = cloneDeep(find(this.$store.getters.topicList, {
+                id: this.$route.query.id
+            }))
         },
         computed: {},
         methods: {

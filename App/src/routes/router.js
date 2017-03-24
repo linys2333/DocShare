@@ -11,6 +11,13 @@ const router = new VueRouter({
 
 // 权限拦截
 router.beforeEach((to, from, next) => {
+    let passCheck = to.matched.some(record => record.meta.passCheck)
+    if (!passCheck) {
+        let wx = sessionStorage.wxInfo
+        if (!wx || !wx.code || !wx.state || !wx.userId || !wx.deviceId) {
+            next('/Auth')
+        }
+    }
     next()
 })
 

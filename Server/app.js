@@ -15,18 +15,18 @@ const routers = require('./routers/index')
 const app = new Koa()
 
 // session存储配置
-// const sessionMysqlConfig = {
-//     user: config.database.USERNAME,
-//     password: config.database.PASSWORD,
-//     database: config.database.DATABASE,
-//     host: config.database.HOST,
-// }
+const sessionMysqlConfig = {
+    user: config.database.USERNAME,
+    password: config.database.PASSWORD,
+    database: config.database.DATABASE,
+    host: config.database.HOST,
+}
 
 // 配置session中间件
-// app.use(session({
-//     key: 'USER_SID',
-//     store: new MysqlStore(sessionMysqlConfig)
-// }))
+app.use(session({
+    key: 'USER_SID',
+    store: new MysqlStore(sessionMysqlConfig)
+}))
 
 // 配置控制台日志中间件
 app.use(convert(koaLogger()))
