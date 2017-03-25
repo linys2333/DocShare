@@ -1,14 +1,17 @@
 <template>
-    <box gap="36px 20px" class="tip">
-        <div v-if="info == ''">  
-            身份验证中...
-        </div>
-        <div v-else>
-            <div class="icon"><icon type="info" is-msg></icon></div>   
-            <div class="text">{{this.info}}</div>
-            <img src="./../assets/img/二维码.jpg"></img>
-        </div>
-    </box>
+    <div>
+        <box gap="36px 20px" class="tip">
+            <div v-if="tip == 1">  
+                身份验证中...
+            </div>
+            <div v-if="tip == 2">
+                <div class="icon"><icon type="info" is-msg></icon></div>   
+                <div class="text">没有权限！请先关注该微信企业号，或从企业号应用进入</div>
+                <img src="./../assets/img/二维码.jpg"></img>
+                <div class="remark">或者联系该企业号管理员</div>
+            </div>
+        </box>
+    </div>
 </template>
 
 <script>
@@ -29,8 +32,11 @@
         },
         data() {
             return {
-                info: ''
+                tip: 0
             }
+        },
+        beforeCreate() {
+
         },
         created() {
             let info = {
@@ -40,11 +46,14 @@
 
             // 1、是否同一个入口进入
             if (!info.code || info.state != authConfig.state) {
-                this.setWaring()
+                // 重定向至微信身份验证
+                let redirectUrl = encodeURIComponent(authConfig.indexUrl)
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxConfig.appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${authConfig.state}#wechat_redirect`
                 return
             }
 
             // 2、根据code校验是否该企业号成员
+            this.tip = 1
             this.$store.dispatch('init')
                 .then(() => {
                     this.$store.dispatch('getWxUser', info.code)
@@ -70,7 +79,7 @@
         },
         methods: {
             setWaring() {
-                this.info = '没有权限！请先关注该微信企业号，或联系该企业号管理员'
+                this.tip = 2
             }
         }
     }

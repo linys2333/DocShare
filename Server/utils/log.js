@@ -3,6 +3,9 @@ const moment = require('moment')
 const colors = require('colors')
 
 const handleText = (text) => {
+    if (typeof text == typeof {}) {
+        text = JSON.stringify(text)
+    }
     return `${moment().format()}：${text}`
 }
 

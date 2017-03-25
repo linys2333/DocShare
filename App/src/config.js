@@ -1,7 +1,7 @@
 export const rootPath = `http://${location.hostname}:${location.port}`
 
 export const authConfig = {
-    indexUrl: `${rootPath}/Auth`,
+    indexUrl: `${rootPath}/`,
     state: 'as344550fGeoR09re845'
 }
 

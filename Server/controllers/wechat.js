@@ -22,17 +22,30 @@ const updateToken = () => {
             global.wx.token = token.access_token
             global.wx.ticket = ticket.ticket
             log.info('token和ticket已更新')
+        } else {
+            log.error(ticket)
         }
+    } else {
+        log.error(token)
     }
 }
 
 class wechat {
     async initWx(ctx) {
+        if (global.wx && global.wx.token && global.wx.ticket) {
+            ctx.body = result(true, '')
+            return
+        }
+
+        if (global.refreshWxId) {
+            clearInterval(global.refreshWxId)
+        }
+
         updateToken()
 
         if (global.wx.token && global.wx.ticket) {
             // 定时更新token和ticket
-            setInterval(updateToken, config.expires_in)
+            global.refreshWxId = setInterval(updateToken, config.expires_in)
 
             ctx.body = result(true, '')
         } else {
@@ -44,10 +57,9 @@ class wechat {
         let user = wxrequest(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${global.wx.token}&code=${ctx.query.code}`)
 
         if (user.UserId) {
-            // 定时更新token和ticket
-            setInterval(updateToken, config.expires_in)
             ctx.body = result(true, user)
         } else {
+            log.error(user)
             ctx.body = result(false, "")
         }
     }
