@@ -34,4 +34,3 @@ packages
 /Server/IISHost/Log
 /Server/.vs/config/applicationhost.config
 /App/start.bat
-/Server/controllers/wxconfig.js
