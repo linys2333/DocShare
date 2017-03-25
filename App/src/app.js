@@ -11,7 +11,6 @@ import './filters/'
 import FastClick from 'fastclick'
 import App from 'COMPONENT/App'
 import { httpHandle } from 'SERVICE/http'
-import wxService from 'SERVICE/wxService'
 
 Vue.use(VueRouter)
 

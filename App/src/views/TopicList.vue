@@ -35,6 +35,16 @@
         },
         created() {
             this.$store.dispatch('getTopicList')
+
+            // 调用微信接口示例，需配置安全域名
+            // this.$store.dispatch('getSignature')
+            //     .then((config) => {
+            //         config.jsApiList = ['startRecord']
+            //         this.$wechat.config(config)
+            //         this.$wechat.ready(() => {
+            //             alert('接口注册成功')
+            //         })
+            //     })
         },
         computed: {
             ...mapGetters({

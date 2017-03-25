@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
+const file = require('./../utils/file')
 const result = require('./result')
 
 // 取数
@@ -8,13 +9,8 @@ let getTopics = (ctx) => {
     let url = `http://${ctx.host}`
     let dataPath = path.join(__dirname, './../Data/Topic/')
     let staticPath = path.join(__dirname, './../static/')
-    let topics = []
 
-    fs.readdirSync(dataPath)
-        .forEach((file) => {
-            let data = fs.readFileSync(dataPath + file)
-            topics.push(JSON.parse(data))
-        })
+    let topics = file.readdirSync2Json(dataPath)
 
     _.forEach(topics, (val) => {
         val.src = `${url}/image/${val.id}.${val.icon}`

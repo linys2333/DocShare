@@ -1,8 +1,10 @@
 import xhr from './xhr/'
 
+const path = '/doc'
+
 class docService {
-    getTopicList(data) {
-        return xhr.get('/doc/getTopicList')
+    getTopicList() {
+        return xhr.get(`${path}/getTopicList`)
     }
 }
 

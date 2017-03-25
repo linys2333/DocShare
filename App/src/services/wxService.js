@@ -1,22 +1,19 @@
 import xhr from './xhr/'
 
+const path = '/wechat'
+
 class wxService {
-    getToken(data) {
-        return xhr.get(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${data.appId}&corpsecret=${data.nonceStr}`)
+    init() {
+        return xhr.get(`${path}/initWx`)
     }
 
-    getTicket(data) {
-        return xhr.get(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${data}`)
+    getUser(code) {
+        return xhr.get(`${path}/getUser?code=${code}`)
     }
 
-    getSignature(data) {
-        return xhr.get('/', data)
+    getSignature(config) {
+        return xhr.post(`${path}/getSignature`, config)
     }
-
-    getWxUser(data) {
-        return xhr.get(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${data.token}&code=${data.code}`)
-    }
-
 }
 
 export default new wxService()

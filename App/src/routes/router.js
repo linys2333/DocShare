@@ -13,8 +13,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
     let passCheck = to.matched.some(record => record.meta.passCheck)
     if (!passCheck) {
-        let wx = sessionStorage.wxInfo
-        if (!wx || !wx.code || !wx.state || !wx.userId || !wx.deviceId) {
+        let wx = JSON.parse(sessionStorage.wxInfo)
+        if (!wx || !wx.code || !wx.userId) {
             next('/Auth')
         }
     }
