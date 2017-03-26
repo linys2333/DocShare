@@ -6,7 +6,7 @@
             </div>
             <div v-if="tip == 2">
                 <div class="icon"><icon type="info" is-msg></icon></div>   
-                <div class="text">没有权限！请先关注该微信企业号，或从企业号应用进入</div>
+                <div class="text">请先关注该微信企业号，或者从企业号应用进入</div>
                 <img src="./../assets/img/二维码.jpg"></img>
                 <div class="remark">或者联系该企业号管理员</div>
             </div>

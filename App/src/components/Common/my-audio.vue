@@ -1,6 +1,6 @@
 <template>
     <div>
-        <audio controls :autoplay="auto" :style="{width: width}" :src="src" :status="status">
+        <audio controls :style="{width: width}" :src="src" :status="status">
             浏览器不支持audio元素
         </audio>
     </div>
@@ -9,7 +9,6 @@
 <script>
     export default {
         props: {
-            auto: String,
             src: String,
             width: String,
             status: String

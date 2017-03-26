@@ -20,9 +20,10 @@
         </group>
         <popup v-model="play.show" @on-hide="pauseMedia()" style="background-color: #3F3F3F;">
             <div class="playTitle">{{play.title}}</div>
-            <my-audio v-show="play.id == doc.id" v-for="(doc, i) in play.list" width="100%" :src="doc.src" auto='autoplay' :status="doc.status">
+            <my-audio v-show="play.id == doc.id" v-for="(doc, i) in play.list" width="100%" :src="doc.src" :status="doc.status">
             </my-audio>
         </popup>
+         <toast v-model="net.show" :time="1500" type="text" width="15em">{{net.tip}}</toast>
     </div>
 </template>
 
@@ -33,7 +34,8 @@
         Box,
         Icon,
         Popup,
-        Flexbox
+        Flexbox,
+        Toast
     } from 'vux'
 
     import MyAudio from './Common/my-audio'
@@ -52,6 +54,7 @@
             Icon,
             Popup,
             Flexbox,
+            Toast,
             MyAudio
         },
         data() {
@@ -63,6 +66,13 @@
                     show: false,
                     status: '',
                     list: []
+                },
+                net: {
+                    conn: null,
+                    show: false,
+                    tip: '',
+                    isTip: false,
+                    oldType: ''
                 }
             }
         },
@@ -75,10 +85,18 @@
             this.topic = cloneDeep(find(this.$store.getters.topicList, {
                 id: this.$route.query.id
             }))
+
+            this.listenConnStatus()
         },
         computed: {},
         methods: {
             playMedia(id) {
+                // 第一次播放提示网络连接
+                if (!this.net.isTip) {
+                    this.alertConnStatus(true)
+                    this.net.isTip = true
+                }
+
                 let t = find(this.topic.docList, {
                     id
                 })
@@ -108,6 +126,53 @@
                 forEach(this.play.list, (val) => {
                     val.status = 'pause'
                 })
+            },
+            alertConnStatus(passWifi) {
+                if (!this.net.conn) {
+                    return
+                }
+
+                if (this.net.oldType == this.net.conn.type) {
+                    return
+                }
+                this.net.oldType = this.net.conn.type
+
+                let tip = ''
+                switch (this.net.conn.type) {
+                    case 'wifi':
+                        if (passWifi != true) {
+                            tip = '当前网络使用wifi'
+                        }
+                        break
+                    case 'cellular':
+                        tip = '当前网络使用2G/3G/4G'
+                        break
+                    case 'none':
+                        tip = '无网络连接'
+                        break
+                    case 'other':
+                    case 'unknown':
+                        tip = '未知的网络连接'
+                        break
+                }
+
+                if (tip) {
+                    this.net.tip = tip
+                    this.net.show = true
+                }
+            },
+            listenConnStatus() {
+                this.net.conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection
+
+                // 监听网络连接 
+                if (this.net.conn) {
+                    this.net.conn.addEventListener('typechange', this.alertConnStatus, false)
+                }
+            }
+        },
+        beforeDestroy() {
+            if (this.net.conn) {
+                this.net.conn.removeEventListener('typechange', this.alertConnStatus, false)
             }
         }
     }
