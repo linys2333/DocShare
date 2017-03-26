@@ -46,6 +46,12 @@
 
             // 1、是否同一个入口进入
             if (!info.code || info.state != authConfig.state) {
+                // 限制只能从微笑企业号进入
+                if (this.$route.query.appid != '2') {
+                    this.setWaring()
+                    return
+                }
+
                 // 重定向至微信身份验证
                 let redirectUrl = encodeURIComponent(authConfig.indexUrl)
                 window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxConfig.appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${authConfig.state}#wechat_redirect`

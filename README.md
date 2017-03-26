@@ -8,6 +8,11 @@
 
  * \Server\controllers\wxconfig.js：config.corpid、config.corpsecret
 
+> 本地开发需修改默认端口号：
+
+ * \App\config\index.js：dev.port
+
+
 > 扫码关注
 
 ![二维码](./Doc/二维码.jpg)
