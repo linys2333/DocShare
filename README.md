@@ -51,9 +51,9 @@
     * 官方文档中的“根据code获取成员信息”，在第6步才用到
 
  1. 请求access_token
-    * 2~5步是独立的部分，可以放在应用服务端的启动时执行（我是选择在第一个用户进入应用时执行），但一定要保证在第3、6步前执行
+    * 2~5步是独立的部分，可以放在应用服务端的启动时执行（我是选择在第一个用户进入应用时执行），但一定要保证在第6步前执行
     * <http://qydev.weixin.qq.com/wiki/index.php?title=主动调用>
-    * 依赖corpid和corpsecret（在微信企业号后台中可以看到<http://www.07net01.com/2015/07/871632.html>）
+    * 依赖corpid和corpsecret（在微信企业号后台查看<http://www.07net01.com/2015/07/871632.html>）
 
  1. 请求ticket
     * ticket其实与身份验证无关，它是调用JS-SDK接口前生成签名用的（我是选择随access_token一起获取后缓存）
