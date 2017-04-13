@@ -1,22 +1,17 @@
-const request = require('sync-request')
-const config = require('./wxconfig')
+const http = require('axios')
+const { wxconfig } = require('./../config')
 const result = require('./result')
-const wxsign = require('./../utils/wxsign')
-const log = require('./../utils/log')
+const wxsign = require('./../util/wxsign')
+const log = require('./../util/log')
 
-const wxrequest = (url) => {
-    let res = request('get', url)
-    return JSON.parse(res.getBody().toString())
-}
-
-const updateToken = () => {
+const updateToken = async() => {
     if (!global.wx) {
         global.wx = {}
     }
 
-    let token = wxrequest(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${config.corpid}&corpsecret=${config.corpsecret}`)
+    let token = await http.get(`https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=${wxconfig.corpid}&corpsecret=${wxconfig.corpsecret}`)
     if (token && token.access_token) {
-        let ticket = wxrequest(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${token.access_token}`)
+        let ticket = await http.get(`https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=${token.access_token}`)
 
         if (ticket && ticket.ticket) {
             global.wx.token = token.access_token
@@ -41,11 +36,11 @@ class wechat {
             clearInterval(global.refreshWxId)
         }
 
-        updateToken()
+        await updateToken()
 
         if (global.wx.token && global.wx.ticket) {
             // 定时更新token和ticket
-            global.refreshWxId = setInterval(updateToken, config.expires_in)
+            global.refreshWxId = setInterval(updateToken, wxconfig.expires_in)
 
             ctx.body = result(true, '')
         } else {
@@ -54,7 +49,7 @@ class wechat {
     }
 
     async getUser(ctx) {
-        let user = wxrequest(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${global.wx.token}&code=${ctx.query.code}`)
+        let user = await http.get(`https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token=${global.wx.token}&code=${ctx.query.code}`)
 
         if (user.UserId) {
             ctx.body = result(true, user)

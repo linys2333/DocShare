@@ -4,9 +4,9 @@
 
 > 运行前请先在以下文件填写企业号相关信息：
 
- * \App\src\config.js：wxConfig.appId
+ * \App\src\config.js：wxconfig.appId
 
- * \Server\controllers\wxconfig.js：config.corpid、config.corpsecret
+ * \Server\config.js：wxconfig.corpid、wxconfig.corpsecret
 
 > 本地开发需修改默认端口号：
 

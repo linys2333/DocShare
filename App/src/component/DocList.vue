@@ -38,7 +38,7 @@
         Toast
     } from 'vux'
 
-    import MyAudio from './Common/my-audio'
+    import MyAudio from './common/my-audio'
 
     import {
         cloneDeep,
@@ -77,14 +77,20 @@
             }
         },
         created() {
-            if (this.$store.getters.topicList.length == 0) {
-                this.$router.push('/Auth')
-                return
+            let setTopic = () => {
+                this.topic = cloneDeep(find(this.$store.getters.topicList, {
+                    id: this.$route.query.id
+                }))
             }
 
-            this.topic = cloneDeep(find(this.$store.getters.topicList, {
-                id: this.$route.query.id
-            }))
+            if (this.$store.getters.topicList.length == 0) {
+                this.$store.dispatch('getTopicList')
+                    .then(() => {
+                        setTopic()
+                    })
+            } else {
+                setTopic()
+            }
 
             this.listenConnStatus()
         },

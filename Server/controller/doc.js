@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const _ = require('lodash')
-const file = require('./../utils/file')
+const file = require('./../util/file')
 const result = require('./result')
 
 // 取数

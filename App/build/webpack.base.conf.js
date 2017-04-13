@@ -26,12 +26,12 @@ let webpackConfig = {
         alias: {
             'vue$': 'vue/dist/vue.esm.js',
             '@': resolve('src'),
-            ASSET: resolve('src/assets'),
-            COMPONENT: resolve('src/components'),
-            SERVICE: resolve('src/services'),
-            VIEW: resolve('src/views'),
+            STATIC: resolve('src/static'),
+            COMPONENT: resolve('src/component'),
+            SERVICE: resolve('src/service'),
+            VIEW: resolve('src/view'),
             STORE: resolve('src/store'),
-            ROUTER: resolve('src/routes')
+            ROUTER: resolve('src/router')
         }
     },
     module: {

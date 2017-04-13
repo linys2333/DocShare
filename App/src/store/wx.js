@@ -1,8 +1,8 @@
 import wxService from 'SERVICE/wxService'
 
 import {
-    wxConfig
-} from './../config'
+    wxconfig
+} from '@/config'
 
 const state = {}
 
@@ -22,13 +22,13 @@ const actions = {
     // 获取签名
     getSignature({ commit }) {
         let config = {
-            timestamp: wxConfig.timestamp,
-            nonceStr: wxConfig.nonceStr
+            timestamp: wxconfig.timestamp,
+            nonceStr: wxconfig.nonceStr
         }
         return wxService.getSignature(config)
             .then((signature) => {
-                wxConfig.signature = signature
-                return wxConfig
+                wxconfig.signature = signature
+                return wxconfig
             })
     }
 }

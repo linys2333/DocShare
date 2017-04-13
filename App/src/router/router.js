@@ -1,8 +1,8 @@
 import VueRouter from 'vue-router'
-import routesMap from './map/routesMap'
+import routerMap from './map/routerMap'
 
 const router = new VueRouter({
-    routes: routesMap,
+    routes: routerMap,
     mode: 'history',
     scrollBehavior: function(to, from, savedPosition) {
         return savedPosition || { x: 0, y: 0 }

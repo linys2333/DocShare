@@ -7,7 +7,7 @@
             <div v-if="tip == 2">
                 <div class="icon"><icon type="info" is-msg></icon></div>   
                 <div class="text">请先关注该微信企业号，或者从企业号应用进入</div>
-                <img src="./../assets/img/二维码.jpg"></img>
+                <img src="./../static/img/二维码.jpg"></img>
                 <div class="remark">或者联系该企业号管理员</div>
             </div>
         </box>
@@ -22,8 +22,8 @@
 
     import {
         authConfig,
-        wxConfig
-    } from './../config'
+        wxconfig
+    } from '@/config'
 
     export default {
         components: {
@@ -54,31 +54,28 @@
 
                 // 重定向至微信身份验证
                 let redirectUrl = encodeURIComponent(authConfig.indexUrl)
-                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxConfig.appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${authConfig.state}#wechat_redirect`
+                window.location.href = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wxconfig.appId}&redirect_uri=${redirectUrl}&response_type=code&scope=snsapi_base&state=${authConfig.state}#wechat_redirect`
                 return
             }
 
             // 2、根据code校验是否该企业号成员
             this.tip = 1
             this.$store.dispatch('init')
-                .then(() => {
-                    this.$store.dispatch('getWxUser', info.code)
-                        .then((userInfo) => {
-                            // 非企业成员
-                            if (!userInfo || !userInfo.UserId) {
-                                this.setWaring()
-                                return
-                            }
+                .then(() => this.$store.dispatch('getWxUser', info.code))
+                .then((userInfo) => {
+                    // 非企业成员
+                    if (!userInfo || !userInfo.UserId) {
+                        this.setWaring()
+                        return
+                    }
 
-                            // 缓存身份信息
-                            sessionStorage.setItem('wxInfo', JSON.stringify({
-                                code: info.code,
-                                userId: userInfo.UserId
-                            }))
+                    // 缓存身份信息
+                    sessionStorage.setItem('wxInfo', JSON.stringify({
+                        code: info.code,
+                        userId: userInfo.UserId
+                    }))
 
-                            this.$router.replace('/Topic')
-                        })
-                        .catch(() => this.setWaring())
+                    this.$router.replace('/Topic')
                 })
                 .catch(() => this.setWaring())
 

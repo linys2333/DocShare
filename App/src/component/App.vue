@@ -36,4 +36,4 @@
 <style lang="less">
     @import '~vux/src/styles/reset.less';
 </style>
-<style src='ASSET/less/global.less' lang='less'></style>
+<style src='STATIC/less/global.less' lang='less'></style>

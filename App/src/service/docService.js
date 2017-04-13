@@ -1,10 +1,10 @@
-import xhr from './xhr/'
+import http from './http/'
 
 const path = '/doc'
 
 class docService {
     getTopicList() {
-        return xhr.get(`${path}/getTopicList`)
+        return http.get(`${path}/getTopicList`)
     }
 }
 

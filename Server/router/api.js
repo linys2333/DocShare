@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 
-const docController = require('./../controllers/doc')
-const wxController = require('./../controllers/wechat')
+const docController = require('./../controller/doc')
+const wxController = require('./../controller/wechat')
 
 const routers = router
     .get('/doc/getTopicList', docController.getTopicList)
